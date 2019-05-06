@@ -175,7 +175,8 @@ struct Graph
         return "Not the right chain";
     }
 
-    void findpaths(vector<vector> &g, int src, int dst, int v){
+    void findpaths(vector<vector> &g, int src, int dst, int v)
+    {
         // create a queue which stores
         // the paths
         queue<vector> q;
@@ -207,6 +208,41 @@ struct Graph
                 }
             }
         }
+    }
+
+    // function for finding minimum no. of edge
+    // using BFS
+    int minEdgeBFS(vector<int> edges[], int u, int v, int n){
+        // visited[n] for keeping track of visited
+        // node in BFS
+        vector<bool> visited(n, 0);
+
+        // Initialize distances as 0
+        vector<int> distance(n, 0);
+
+        // queue to do BFS.
+        queue<int> Q;
+        distance[u] = 0;
+
+        Q.push(u);
+        visited[u] = true;
+        while (!Q.empty())
+        {
+            int x = Q.front();
+            Q.pop();
+
+            for (int i = 0; i < edges[x].size(); i++)
+            {
+                if (visited[edges[x][i]])
+                    continue;
+
+                // update distance for i
+                distance[edges[x][i]] = distance[x] + 1;
+                Q.push(edges[x][i]);
+                visited[edges[x][i]] = 1;
+            }
+        }
+        return distance[v];
     }
 
     bool dfs(int start, int dest)
